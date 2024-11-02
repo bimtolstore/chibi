@@ -24,8 +24,6 @@
             border-radius: 10px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             position: relative;
-            max-height: 750px; /* Sesuaikan dengan tinggi maksimal yang diinginkan */
-            overflow-y: auto; /* Tambahkan overflow-y: auto; untuk mengaktifkan scroll jika konten melebihi */
         }
         .header {
             display: flex;
@@ -114,6 +112,11 @@
         .show-password:hover {
             color: #3949ab;
         }
+        .y h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #5c6bc0;
+        }
 
         /* Media query untuk layar kecil */
         @media (max-width: 768px) {
@@ -133,11 +136,13 @@
 
 <div class="container">
     <div class="header">
-    <h2><a href="index.html" class="btn"><img src="resource/back.png" width="30px" height="20px"></a>CHIBI MEMORIES</h2>
+    <i text-align="center" class="fas fa-history">   Riwayat chat</i></p>
         </div>
+        <div class="y">
+      <h2>Riwayat Chat Kita Dari 29/12/2023 s.d 28/10/2024</h2>
+      </div>
      <div class="profile-info">
-        <h2>Chatan Kita Dari 29/12/2023 s.d 28/10/2024</h2>
-<iframe src="1.txt" width="340" height="600"></iframe>
+<iframe src="1.txt" width="340" height="650"></iframe>
     </div>
 </div>
 
