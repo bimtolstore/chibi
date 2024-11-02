@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Profil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #74ebd5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            max-height: 750px; /* Sesuaikan dengan tinggi maksimal yang diinginkan */
+            overflow-y: auto; /* Tambahkan overflow-y: auto; untuk mengaktifkan scroll jika konten melebihi */
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        .header .menu-toggle {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .profile-info {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            text-align: left;
+            position: relative;
+        }
+        .profile-info h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #5c6bc0;
+        }
+        .profile-info p {
+            font-size: 16px;
+            color: #666;
+            margin: 10px 0;
+        }
+        .profile-info .password-field {
+            display: flex;
+            align-items: center;
+        }
+        .profile-info .password-field input {
+            border: none;
+            background: none;
+            font-size: 16px;
+            color: #666;
+            margin-left: 10px;
+            flex: 1;
+        }
+        .profile-info .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background: #5c6bc0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .profile-info .btn:hover {
+            background: #3949ab;
+        }
+        .customer-service {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #5c6bc0;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+        .customer-service:hover {
+            background: #3949ab;
+        }
+        .show-password {
+            cursor: pointer;
+            color: #5c6bc0;
+            margin-left: 10px;
+        }
+        .show-password:hover {
+            color: #3949ab;
+        }
+
+        /* Media query untuk layar kecil */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 20px;
+            }
+            .profile-info {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+<div class="header">
+        <h2><a href="index.html" class="btn"><img src="resource/back.png" width="30px" height="20px"></a>CHIBI MEMORIES</h2>
+        </div>
+    <div class="profile-info">
+        <h2>Tentang Bimtol</h2>
+        <p><strong>Nama Lengkap:</strong> Bima Rachmat Priyanto</p>
+        <p><strong>Tanggal Lahir:</strong> 25/02/2009</p>
+        <p><strong>Kelahiran:</strong> Karawang</p>
+        <p><strong>Hobi:</strong> Makan</p>
+        <p><strong>Cita Cita:</strong> Ahli Informatika, Ahli Arsitek dan Insinyur</p>
+        <p><strong>5 Fav Makanan Berat:</strong> Mie ayam, Ayam bumbu hitam, Opor ayam, Martabak Telur, Ayam Katsu</p>
+        <p><strong>5 Fav Makanan Ringan:</strong> Risol Mayo, Cireng ayam pedas, Pastel kentang, Gehu, Cakwe</p>
+        <p><strong>5 Fav Hidangan Manis:</strong> Martabak Manis cokju, Bakpia Pathok, Roti Bagelen, Smoothies, Sop buah</p>
+        <p><strong>5 Lagu terfav:</strong> Line Without a Hook, A thousand years - James Arthur, Night Changes, Perfect - Ed Sheeran, Diary Depresiku</p>
+        <p><strong>Negara yang ingin dikunjungi:</strong> Jepang, Swiss, Singapura</p>
+        <p><strong>Sifat yg sadar ada di diri:</strong> Ceroboh, Sifat suka ke nahida</p>
+    </div>
+        <div class="profile-info">
+        <h2>Tentang Chian</h2>
+        <p><strong>Nama Lengkap:</strong> Christiana Putri Simangunsong</p>
+        <p><strong>Tanggal Lahir:</strong> 30/05/2009</p>
+        <p><strong>Kelahiran:</strong> Medan</p>
+        <p><strong>Hobi:</strong> Makan</p>
+        <p><strong>Cita Cita:</strong> Ahli Informatika, Ahli Arsitek dan Insinyur</p>
+        <p><strong>5 Fav Makanan Berat:</strong> Mie ayam, Ayam bumbu hitam, Opor ayam, Martabak Telur, Ayam Katsu</p>
+        <p><strong>5 Fav Makanan Ringan:</strong> Risol Mayo, Cireng ayam pedas, Pastel kentang, Gehu, Cakwe</p>
+        <p><strong>5 Fav Hidangan Manis:</strong> Martabak Manis cokju, Bakpia Pathok, Roti Bagelen, Smoothies, Sop buah</p>
+        <p><strong>5 Lagu terfav:</strong> Line Without a Hook, A thousand years - James Arthur, Night Changes, Perfect - Ed Sheeran, Diary Depresiku</p>
+        <p><strong>Negara yang ingin dikunjungi:</strong> Jepang, Swiss, Singapura</p>
+        <p><strong>Sifat yg sadar ada di diri:</strong> Ceroboh, Sifat suka ke nahida</p>
+    </div>
+</div>
+
+<script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const container = document.querySelector('.container');
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    const lastLogin = document.getElementById('lastLogin');
+
+    menuToggle.addEventListener('click', () => {
+        container.classList.toggle('show-menu');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!container.contains(e.target) && !menuToggle.contains(e.target)) {
+            container.classList.remove('show-menu');
+        }
+    });
+
+    togglePassword.addEventListener('click', () => {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        togglePassword.classList.toggle('fa-eye');
+        togglePassword.classList.toggle('fa-eye-slash');
+    });
+
+    // Fungsi untuk memperbarui waktu terakhir login
+    function updateLastLogin() {
+        const now = new Date();
+        const dateFormatted = `${now.getDate()} ${getMonthName(now.getMonth())} ${now.getFullYear()}`;
+        const timeFormatted = `${padZero(now.getHours())}:${padZero(now.getMinutes())}`;
+        lastLogin.textContent = `Terakhir Masuk: ${dateFormatted} ${timeFormatted}`;
+    }
+
+    // Fungsi untuk mendapatkan nama bulan berdasarkan indeks bulan
+    function getMonthName(monthIndex) {
+        const monthNames = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+        return monthNames[monthIndex];
+    }
+
+    // Fungsi untuk menambah nol pada angka satu digit (untuk menampilkan waktu dalam format dua digit)
+    function padZero(num) {
+        return num.toString().padStart(2, '0');
+    }
+
+    updateLastLogin(); // Panggil fungsi untuk menetapkan waktu saat halaman dimuat
+</script>
+
+</body>
+</html>

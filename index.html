@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories</title>
+    <link rel="stylesheet" href="ds.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .scrollable-div {
+            overflow-y: scroll; /* Atau overflow: auto; */
+            height: 300px; /* Contoh tinggi */
+        }
+        .p {
+            width: 30px;
+            height: 30px;
+       }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            user-select: none; /* Disable text selection */
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #5c6bc0;
+            text-decoration: none;
+        }
+        .header .menu-toggle {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-height: 720px; /* Sesuaikan dengan tinggi maksimal yang diinginkan */
+            overflow-y: auto; /* Tambahkan overflow-y: auto; untuk mengaktifkan scroll jika konten melebihi */
+        }
+        .menu-item {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            width: 200px; /* Lebar tetap */
+            height: 200px; /* Tinggi tetap */
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+        }
+        .menu-item i {
+            font-size: 48px;
+            color: #5c6bc0;
+        }
+        .menu-item h3 {
+            margin: 10px 0;
+            font-size: 24px;
+            color: #333;
+        }
+        .menu-item p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .menu-item .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background: #5c6bc0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .menu-item .btn:hover {
+            background: #3949ab;
+        }
+        .customer-service {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #5c6bc0;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+        .customer-service:hover {
+            background: #3949ab;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .modal-content h3 {
+            margin-top: 0;
+        }
+        .modal-content p {
+            color: #666;
+            font-size: 16px;
+        }
+        .modal-content .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-content .btn {
+            padding: 10px 20px;
+            color: #fff;
+            background: #5c6bc0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .modal-content .btn:hover {
+            background: #3949ab;
+        }
+        .modal-content .btn.cancel {
+            background: #f44336;
+        }
+        .modal-content .btn.cancel:hover {
+            background: #d32f2f;
+        }
+        /* Styles for Music Modal */
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        /* Prevent right-click on images */
+        img {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <a href="#" class="logo">Our Memories</a>
+    </div>
+    <div class="menu">
+        <div class="menu-item">
+            <i><img src="resource/p.png" class="p"></i>
+            <h3>Memories</h3>
+            <p>Media tentang kita</p>
+            <a href="memo.html" class="btn">Buka</a>
+        </div>
+        <div class="menu-item">
+            <i><img src="resource/p.png" class="p"></i>
+            <h3>Memories</h3>
+            <p>Chat tentang kita</p>
+            <a href="1.html" class="btn">Buka</a>
+        </div>
+        <div class="menu-item">
+            <i><img src="resource/p.png" class="p"></i>
+            <h3>Favorite</h3>
+            <p>Favorit tentang kita</p>
+            <a href="fav.html" class="btn">Buka</a>
+        </div>
+        <div class="menu-item">
+            <i><img src="resource/p.png" class="p"></i>
+            <h3>Musik</h3>
+            <p>Putar musik favorit kita secara gratis</p>
+            <button class="btn music-btn">Buka</button>
+        </div>
+        <div class="menu-item">
+            <i><img src="resource/p.png" class="p"></i>
+            <h3>Tutorial</h3>
+            <p>Jika chian mengalami kendala</p>
+            <a href="tutor.html" class="btn">Buka</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal untuk Setel Musik -->
+<div id="musicModal" class="modal">
+    <div class="modal-content">
+        <h3>Setel Musik</h3>
+        <select id="musicSelect">
+            <option value="https://example.com/0.mp3">Pilih musik</option>
+            <option value="0.mp3">Dimas M - Sekarang hingga Nanti Kita Tua</option>
+            <option value="Nightchanges.mp3">One Direction - Night Changes</option>
+            <option value="Perfectes.mp3">Ed Sheeran - Perfect</option>
+            <option value="thousandyear.mp3">James Arthur - A thousand year</option>
+            <option value="line.mp3">Ricky M - Line Without a hook</option>
+            <option value="diarydepresiku.mp3">Last Child - Diary Depresiku</option>
+            <option value="cry.mp3">After Sex - Cry</option>
+            <option value="rahasiahati.mp3">Nidji - Rahasia Hati</option>
+            <option value="tothebone.mp3">Pamungkas - To The Bone</option>
+            <option value="enchanted.mp3">Taylor Swift - Enchanted</option>
+        </select>
+        <audio id="musicPlayer" controls>
+            <!-- Source akan diatur melalui JavaScript -->
+            Your browser does not support the audio element.
+        </audio>
+        <div class="modal-buttons">
+            <a href="#" class="btn cancel">Sembunyikan</a>
+            <a href="https://wa.me/6289508984455" target="_blank" class="btn">Tambah Musik</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Periksa apakah ada pemutaran musik yang disimpan di localStorage
+    const savedMusicUrl = localStorage.getItem('savedMusicUrl');
+    if (savedMusicUrl) {
+        const musicPlayer = document.getElementById('musicPlayer');
+        musicPlayer.src = savedMusicUrl;
+        musicPlayer.load();
+        musicPlayer.play(); // Mulai memutar musik yang disimpan
+    }
+
+    // Event listener untuk tombol musik
+    const musicBtn = document.querySelector('.music-btn');
+    const musicModal = document.getElementById('musicModal');
+    const musicCancelBtn = document.querySelector('#musicModal .btn.cancel');
+    const musicSelect = document.getElementById('musicSelect');
+    const musicPlayer = document.getElementById('musicPlayer');
+
+    musicBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        musicModal.style.display = 'flex';
+    });
+
+    musicCancelBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        musicModal.style.display = 'none';
+    });
+
+    musicSelect.addEventListener('change', (event) => {
+        const selectedMusicUrl = event.target.value;
+        musicPlayer.src = selectedMusicUrl;
+        musicPlayer.load();
+        musicPlayer.play(); // Autoplay jika perlu
+        localStorage.setItem('savedMusicUrl', selectedMusicUrl); // Simpan URL musik yang dipilih ke localStorage
+    });
+
+    // Close modal saat klik di luar modal
+    window.addEventListener('click', (event) => {
+        if (event.target === musicModal) {
+            musicModal.style.display = 'none';
+        }
+    });
+});
+
+</script>
+
+</body>
+</html>
