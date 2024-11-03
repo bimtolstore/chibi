@@ -120,29 +120,29 @@
         }
         /* Modal styles */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Atur lebar maksimum modal */
+    text-align: center;
+    max-height: calc(100% - 40px); /* Atur tinggi maksimum modal */
+    overflow-y: auto; /* Aktifkan scroll jika konten terlalu panjang */
+}
         .modal-content h3 {
             margin-top: 0;
         }
@@ -189,6 +189,89 @@
         img {
             pointer-events: none;
         }
+        .search-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.search-container input[type=text] {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+.search-container .search-btn {
+    padding: 10px;
+    background-color: #5c6bc0;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-container .search-btn:hover {
+    background-color: #3949ab;
+}
+        /* Audio Player Styles */
+        .audio-player {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .player-controls {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .player-controls button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #5c6bc0;
+            transition: color 0.3s;
+            margin: 0 10px;
+        }
+        .player-controls button:hover {
+            color: #3949ab;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #ccc;
+            margin-top: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+        .progress-filled {
+            height: 100%;
+            background: #5c6bc0;
+            border-radius: 5px;
+            width: 0;
+        }
+        .time {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        .lyrics {
+    overflow-y: auto; /* Aktifkan scroll jika konten lirik terlalu panjang */
+    max-height: 200px; /* Atur tinggi maksimum lirik untuk scroll */
+}
+
+.lyrics p {
+    margin: 5px 0;
+    opacity: 0.2; /* Atur opasitas awal untuk lirik yang tidak disorot */
+    transition: opacity 0.2s ease-in-out; /* Efek transisi untuk perubahan opasitas */
+}
+
+.lyrics p.highlight {
+    opacity: 2; /* Atur opasitas penuh untuk lirik yang disorot */
+}
     </style>
 </head>
 <body>
@@ -234,11 +317,15 @@
 <!-- Modal untuk Setel Musik -->
 <div id="musicModal" class="modal">
     <div class="modal-content">
-        <h3>Setel Musik</h3>
+    <h3>Setel Musik</h3>
+    <div class="search-container">
+        <input type="text" id="searchMusic" placeholder="Cari musik...">
+        <button class="search-btn"><i class="fa fa-search"></i></button>
+    </div>
         <select id="musicSelect">
-            <option value="https://example.com/0.mp3">Pilih musik</option>
-            <option value="0.mp3">Dimas M - Sekarang hingga Nanti Kita Tua</option>
-            <option value="Nightchanges.mp3">One Direction - Night Changes</option>
+            <option value="https://example.com/0.mp3">Pilih Musik</option>
+            <option value="https://bimtolstore.github.io/chibi/0.mp3">Dimas M - Sekarang hingga Nanti Kita Tua</option>
+            <option value="https://bimtolstore.github.io/chibi/Nightchanges.mp3">One Direction - Night Changes</option>
             <option value="Perfectes.mp3">Ed Sheeran - Perfect</option>
             <option value="thousandyears.mp3">James Arthur - A thousand year</option>
             <option value="line.mp3">Ricky M - Line Without a hook</option>
@@ -254,61 +341,305 @@
             <option value="watch.mp3">Billie Elish - Watch</option>
             <option value="fix_you.mp3">Cold Play - Fix You</option>
         </select>
-        <audio id="musicPlayer" controls>
-            <!-- Source akan diatur melalui JavaScript -->
-            Your browser does not support the audio element.
-        </audio>
-        <div class="modal-buttons">
-            <a href="#" class="btn cancel">Sembunyikan</a>
-            <a href="https://wa.me/6289508984455" target="_blank" class="btn">Tambah Musik</a>
-        </div>
+        <div class="audio-player">
+            <audio id="musicPlayer" controls style="display: none;">
+    <!-- Source akan diatur melalui JavaScript -->
+    Your browser does not support the audio element.
+</audio>
+            <div class="player-controls">
+                <button id="prevBtn" title="Previous"><i class="fas fa-backward"></i></button>
+                <button id="playBtn" title="Play"><i class="fas fa-play"></i></button>
+                <button id="nextBtn" title="Next"><i class="fas fa-forward"></i></button>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-filled"></div>
+            </div>
+            <div class="time">
+                <span id="currentTime">00:00</span> / <span id="duration">00:00</span>
+            </div>
+            <div class="lyrics">
+    <h4>Lirik Lagu</h4>
+    <div id="lyricsContainer"></div>
+</div>
+            </div>
+    <div class="modal-buttons">
+        <a href="#" class="btn cancel">Sembunyikan</a>
+        <a href="https://wa.me/6289508984455" target="_blank" class="btn">Tambah Musik</a>
     </div>
+</div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    // Periksa apakah ada pemutaran musik yang disimpan di localStorage
-    const savedMusicUrl = localStorage.getItem('savedMusicUrl');
-    if (savedMusicUrl) {
-        const musicPlayer = document.getElementById('musicPlayer');
-        musicPlayer.src = savedMusicUrl;
-        musicPlayer.load();
-        musicPlayer.play(); // Mulai memutar musik yang disimpan
+document.addEventListener('DOMContentLoaded', function() {
+    const musicSelect = document.getElementById('musicSelect');
+    const lyricsContainer = document.getElementById('lyricsContainer');
+    const musicPlayer = document.getElementById('musicPlayer');
+
+    let lyricsData = {};
+    let currentLyricIndex = 0;
+    let isPlaying = false;
+    let lyricHighlightInterval;
+
+    function loadLyrics(songTitle) {
+        lyricsData = {
+            "Dimas M - Sekarang hingga Nanti Kita Tua": `
+                <p data-start="0" data-end="27">🎵🎵🎵</p>
+                <p data-start="27" data-end="32">Di saat ku sedang hancur-hancurnya</p>
+                <p data-start="32" data-end="36">Kau datang dengan bahagia menyapa</p>
+                <p data-start="36" data-end="40">Ku terjebak, tak bisa merasa</p>
+                <p data-start="40" data-end="45">Kau mengenalkanku pada cinta</p>
+                <p data-start="45" data-end="50">Apakah kita akan selamanya?</p>
+                <p data-start="50" data-end="55">Ataukah kita akan saling lupa?</p>
+                <p data-start="55" data-end="59">Ku senang saat kita bersama</p>
+                <p data-start="59" data-end="64">Namun, ku ragu 'tuk percaya</p>
+                <p data-start="64" data-end="68">Ingin ku menemanimu s'lamanya</p>
+                <p data-start="68" data-end="73">Bisakah ku berharap pada cinta?</p>
+                <p data-start="73" data-end="77">Dulu dia pernah memberiku luka</p>
+                <p data-start="77" data-end="82">Sampai ku takut untuk jatuh cinta</p>
+                <p data-start="82" data-end="86">Namun, jika kau buatku bahagia</p>
+                <p data-start="86" data-end="91">Akan kucoba percaya pada cinta</p>
+                <p data-start="91" data-end="96">Berjanjilah, kita selalu bersama</p>
+                <p data-start="96" data-end="104">Sekarang hingga nanti kita tua</p>
+                <p data-start="104" data-end="119">🎵🎵🎵</p>
+                <p data-start="119" data-end="123">Ingatkah pertama kita bertemu?</p>
+                <p data-start="123" data-end="128">Ku terpikat kar'na kau sangat lucu</p>
+                <p data-start="128" data-end="132">Bahagia ku bisa bertemu kamu</p>
+                <p data-start="132" data-end="137">Kau menata kembali hatiku</p>
+                <p data-start="137" data-end="141">Banyak orang yang datang padaku</p>
+                <p data-start="141" data-end="146">Namun, belum ada yang sepertimu</p>
+                <p data-start="146" data-end="150">Kauberi rasa nyaman diriku</p>
+                <p data-start="150" data-end="155">Sungguh, ku suka bersamamu</p>
+                <p data-start="155" data-end="160">Ingin ku menemanimu s'lamanya</p>
+                <p data-start="160" data-end="164">Bisakah ku berharap pada cinta?</p>
+                <p data-start="164" data-end="169">Dulu dia pernah memberiku lukau</p>
+                <p data-start="169" data-end="174">Sampai ku takut untuk jatuh cinta</p>
+                <p data-start="174" data-end="177">Namun, jika kau buatku bahagia</p>
+                <p data-start="177" data-end="182">Akan kucoba percaya pada cinta</p>
+                <p data-start="182" data-end="186">Berjanjilah, kita selalu bersama</p>
+                <p data-start="186" data-end="191">Sekarang hingga nanti kita tua</p>
+                <p data-start="191" data-end="202">🎵🎵🎵</p>
+            `,
+            "One Direction - Night Changes": `
+                <p data-start="0" data-end="5">Error Lirik tidak ditemukan</p>
+            `,
+            // Tambahkan lirik untuk lagu-lagu lain di sini
+        };
+
+        const selectedLyrics = lyricsData[songTitle];
+        if (selectedLyrics) {
+            lyricsContainer.innerHTML = selectedLyrics;
+        } else {
+            lyricsContainer.innerHTML = '<p>Lirik tidak tersedia.</p>';
+        }
     }
 
-    // Event listener untuk tombol musik
-    const musicBtn = document.querySelector('.music-btn');
+    function startLyricsHighlight() {
+        clearInterval(lyricHighlightInterval);
+        lyricHighlightInterval = setInterval(function() {
+            const currentTime = musicPlayer.currentTime;
+            highlightCurrentLyric(currentTime);
+        }, 100);
+    }
+
+    function pauseLyricsHighlight() {
+        clearInterval(lyricHighlightInterval);
+    }
+
+    function highlightCurrentLyric(currentTime) {
+        const lyrics = lyricsContainer.querySelectorAll('p');
+
+        for (let i = 0; i < lyrics.length; i++) {
+            const start = parseFloat(lyrics[i].getAttribute('data-start'));
+            const end = parseFloat(lyrics[i].getAttribute('data-end'));
+
+            if (!isNaN(start) && !isNaN(end) && currentTime >= start && currentTime < end) {
+                lyrics[i].classList.add('highlight');
+            } else {
+                lyrics[i].classList.remove('highlight');
+            }
+        }
+    }
+
+    musicPlayer.addEventListener('play', function() {
+        isPlaying = true;
+        startLyricsHighlight();
+    });
+
+    musicPlayer.addEventListener('pause', function() {
+        isPlaying = false;
+        pauseLyricsHighlight();
+    });
+
+    musicSelect.addEventListener('change', function() {
+        const selectedSong = musicSelect.options[musicSelect.selectedIndex].textContent;
+        loadLyrics(selectedSong);
+    });
+
+    const initialSong = musicSelect.options[musicSelect.selectedIndex].textContent;
+    loadLyrics(initialSong);
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const musicSelect = document.getElementById('musicSelect');
+    const searchInput = document.getElementById('searchMusic');
+    const musicOptions = Array.from(musicSelect.options);
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredOptions = musicOptions.filter(option => 
+            option.textContent.toLowerCase().includes(searchTerm)
+        );
+
+        musicSelect.innerHTML = '';
+        filteredOptions.forEach(option => {
+            musicSelect.appendChild(option);
+        });
+
+        // Perbarui ukuran modal setelah konten diubah
+        updateModalSize();
+    });
+
+    function updateModalSize() {
+        const modal = document.querySelector('.modal');
+        const modalContent = document.querySelector('.modal-content');
+
+        // Periksa tinggi konten modal
+        const contentHeight = modalContent.scrollHeight;
+        const maxHeight = window.innerHeight - 40; // Atur maksimum tinggi modal sesuai kebutuhan
+
+        // Atur tinggi modal berdasarkan konten
+        if (contentHeight > maxHeight) {
+            modalContent.style.maxHeight = maxHeight + 'px';
+        } else {
+            modalContent.style.maxHeight = 'auto';
+        }
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
     const musicModal = document.getElementById('musicModal');
+    const musicBtn = document.querySelector('.music-btn');
     const musicCancelBtn = document.querySelector('#musicModal .btn.cancel');
     const musicSelect = document.getElementById('musicSelect');
     const musicPlayer = document.getElementById('musicPlayer');
+    const playBtn = document.getElementById('playBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressFilled = document.querySelector('.progress-filled');
+    const currentTime = document.getElementById('currentTime');
+    const duration = document.getElementById('duration');
 
-    musicBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        musicModal.style.display = 'flex';
-    });
+    let currentMusicIndex = 0;
+    let isPlaying = false;
+    let progressInterval;
 
-    musicCancelBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        musicModal.style.display = 'none';
-    });
-
-    musicSelect.addEventListener('change', (event) => {
-        const selectedMusicUrl = event.target.value;
+    function loadMusic(index) {
+        const selectedMusicUrl = musicSelect.options[index].value;
         musicPlayer.src = selectedMusicUrl;
         musicPlayer.load();
-        musicPlayer.play(); // Autoplay jika perlu
+        updateDuration();
         localStorage.setItem('savedMusicUrl', selectedMusicUrl); // Simpan URL musik yang dipilih ke localStorage
+    }
+
+    function updateDuration() {
+        musicPlayer.addEventListener('loadedmetadata', () => {
+            const durationMinutes = Math.floor(musicPlayer.duration / 60);
+            const durationSeconds = Math.floor(musicPlayer.duration % 60);
+            duration.textContent = `${durationMinutes}:${durationSeconds < 10 ? '0' : ''}${durationSeconds}`;
+        });
+    }
+
+    // Cek apakah ada pemutaran musik yang disimpan di localStorage saat halaman dimuat
+    const savedMusicUrl = localStorage.getItem('savedMusicUrl');
+    if (savedMusicUrl) {
+        musicPlayer.src = savedMusicUrl;
+        musicPlayer.load();
+        playMusic(); // Mulai memutar musik yang disimpan
+    }
+
+    musicBtn.addEventListener('click', () => {
+        musicModal.style.display = 'flex';
+        // Load musik hanya jika tidak sedang diputar
+        if (!isPlaying) {
+            loadMusic(currentMusicIndex);
+        }
     });
 
-    // Close modal saat klik di luar modal
-    window.addEventListener('click', (event) => {
+    musicCancelBtn.addEventListener('click', () => {
+        musicModal.style.display = 'none';
+        // Tidak perlu pauseMusic() di sini karena musik harus tetap berlanjut
+    });
+
+    playBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            pauseMusic();
+        } else {
+            playMusic();
+        }
+    });
+
+function playMusic() {
+    musicPlayer.play();
+    isPlaying = true;
+    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+    startProgress();
+    document.title = musicSelect.options[currentMusicIndex].text; // Mengubah judul tab sesuai judul lagu
+}
+
+    function pauseMusic() {
+    musicPlayer.pause();
+    isPlaying = false;
+    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+    clearInterval(progressInterval);
+    document.title = "Our Memories"; // Mengembalikan judul tab ke judul halaman utama
+}
+
+    nextBtn.addEventListener('click', () => {
+        currentMusicIndex = (currentMusicIndex + 1) % musicSelect.options.length;
+        loadMusic(currentMusicIndex);
+        if (isPlaying) playMusic();
+        updateSelectOption();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        currentMusicIndex = (currentMusicIndex - 1 + musicSelect.options.length) % musicSelect.options.length;
+        loadMusic(currentMusicIndex);
+        if (isPlaying) playMusic();
+        updateSelectOption();
+    });
+
+    musicSelect.addEventListener('change', () => {
+        currentMusicIndex = musicSelect.selectedIndex;
+        loadMusic(currentMusicIndex);
+        if (isPlaying) playMusic();
+    });
+
+    function updateSelectOption() {
+        musicSelect.selectedIndex = currentMusicIndex;
+    }
+
+    function startProgress() {
+        progressInterval = setInterval(() => {
+            const progressPercent = (musicPlayer.currentTime / musicPlayer.duration) * 100;
+            progressFilled.style.width = `${progressPercent}%`;
+            const currentMinutes = Math.floor(musicPlayer.currentTime / 60);
+            const currentSeconds = Math.floor(musicPlayer.currentTime % 60);
+            currentTime.textContent = `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds}`;
+        }, 1000);
+    }
+
+    musicPlayer.addEventListener('ended', () => {
+        clearInterval(progressInterval);
+        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        isPlaying = false;
+    });
+
+    // Menangani penutupan modal secara tepat
+    musicModal.addEventListener('click', (event) => {
         if (event.target === musicModal) {
             musicModal.style.display = 'none';
+            // Tidak perlu pauseMusic() di sini karena musik harus tetap berlanjut
         }
     });
 });
-
 </script>
 
 </body>
